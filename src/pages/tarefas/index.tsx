@@ -1,31 +1,36 @@
 import { Button, Container, Input } from "@chakra-ui/react"
 import Layout from "../../components/Layout"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ITarefa } from "../../interfaces/tarefa"
-import ItemTarefa from "../../components/ItemTarefa"
 import ListaTarefas from "../../components/ListaTarefas"
 
 export default function Tarefas() {
-  const [tarefas, setTarefas] = useState<ITarefa[]>([
-    { id: 1, nome: "tarefa1", concluida: false },
-    { id: 2, nome: "tarefa2", concluida: false },
-    { id: 3, nome: "tarefa3", concluida: true },
-    { id: 4, nome: "teste tarefa", concluida: false },
-  ])
+  const [tarefas, setTarefas] = useState<ITarefa[]>([])
+
+useEffect(()=>{
+ const ApiTarefas = [
+  { id: 1, nome: "tarefa1", concluida: false },
+  { id: 2, nome: "tarefa2", concluida: false },
+  { id: 3, nome: "tarefa3", concluida: true },
+  { id: 4, nome: "teste tarefa", concluida: false },
+ ]
+ setTarefas(ApiTarefas)
+},[])
 
   const [inputNome, setInputNome] = useState('')
 
   function adicionarTarefa() {
+    let ultimoId = 0
     if (tarefas.length > 0) {
-      const ultimoId = tarefas[tarefas.length - 1].id
-      const novaTarefa: ITarefa = {
-        id: ultimoId + 1,
-        nome: inputNome,
-        concluida: false
-      }
-      setTarefas([...tarefas, novaTarefa]) //spread
-
+      ultimoId = tarefas[tarefas.length - 1].id
     }
+
+    const novaTarefa: ITarefa = {
+      id: ultimoId + 1,
+      nome: inputNome,
+      concluida: false
+    }
+    setTarefas([...tarefas, novaTarefa]) //spread
   }
 
 
